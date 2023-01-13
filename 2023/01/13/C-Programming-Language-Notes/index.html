@@ -1,0 +1,856 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="The C++ Programming Language  Part Ⅰ – Introductory MaterialChapter 2 A Tour of C++: The Basics Introduction The Basics Hello, World! Types, Variables, and Arithmetic Constants Tests and Loops Pointer">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ Programming Language Notes">
+<meta property="og:url" content="http://example.com/2023/01/13/C-Programming-Language-Notes/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="The C++ Programming Language  Part Ⅰ – Introductory MaterialChapter 2 A Tour of C++: The Basics Introduction The Basics Hello, World! Types, Variables, and Arithmetic Constants Tests and Loops Pointer">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-01-13T13:27:05.000Z">
+<meta property="article:modified_time" content="2023-01-13T13:44:57.673Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>C++ Programming Language Notes - Hexo</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Villian Louis&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ Programming Language Notes"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-01-13 21:27" pubdate>
+          January 13, 2023 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          8k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          67 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">C++ Programming Language Notes</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="The-C-Programming-Language-Part-Ⅰ-–-Introductory-Material"><a href="#The-C-Programming-Language-Part-Ⅰ-–-Introductory-Material" class="headerlink" title="The C++ Programming Language  Part Ⅰ – Introductory Material"></a><em>The C++ Programming Language</em>  Part Ⅰ – Introductory Material</h1><h2 id="Chapter-2-A-Tour-of-C-The-Basics"><a href="#Chapter-2-A-Tour-of-C-The-Basics" class="headerlink" title="Chapter 2 A Tour of C++: The Basics"></a>Chapter 2 A Tour of C++: The Basics</h2><ul>
+<li>Introduction</li>
+<li>The Basics<ul>
+<li>Hello, World!</li>
+<li>Types, Variables, and Arithmetic</li>
+<li>Constants</li>
+<li>Tests and Loops</li>
+<li>Pointers, Arrays, and Loops</li>
+</ul>
+</li>
+<li>User-Defined Types<ul>
+<li>Structures</li>
+<li>Classes</li>
+<li>Enumerations</li>
+</ul>
+</li>
+<li>Modularity<ul>
+<li>Separate Compilation</li>
+<li>Namespaces</li>
+<li>Error Handling</li>
+</ul>
+</li>
+<li>Postcript</li>
+<li>Advice</li>
+</ul>
+<h3 id="2-1-Introduction"><a href="#2-1-Introduction" class="headerlink" title="2.1 Introduction"></a>2.1 Introduction</h3><ul>
+<li><p>2，3，4，5章主要是”give you an idea of what C++ is”</p>
+<ul>
+<li>Chapter 2给出<ul>
+<li>notion of C++</li>
+<li>C++‘s model of memory</li>
+<li>computation</li>
+<li>the basic mechanism for organizing code into program</li>
+</ul>
+</li>
+<li>Chapter 3介绍C++’s Abstraction mechanism</li>
+<li>Chapter 4 和 Chapter 5 给出一些Standard-library facilities的例子</li>
+</ul>
+</li>
+<li><p>严格的自底向上的方式介绍C++</p>
+</li>
+<li><p>This tour present C++ as an integrated whole.</p>
+</li>
+</ul>
+<h3 id="2-2-The-Basics"><a href="#2-2-The-Basics" class="headerlink" title="2.2 The Basics"></a>2.2 The Basics</h3><ol>
+<li>C++ is a compiled language.<ul>
+<li>Source text必须由 compiler处理，产生object files。然后object files 被linker combined，产生executable program</li>
+<li>![](D:\obsidian\Louis\attachment\Pasted image 20230113194159.png)</li>
+</ul>
+</li>
+</ol>
+<ol start="2">
+<li>An executable program is created for a specific hardware/system combination; it is not portable.<ul>
+<li>When talk about portability of C++ programs, we usually mean portability of source code; that is the source code can be successfully compiled and run on a varity of systems.</li>
+</ul>
+</li>
+</ol>
+<ol start="3">
+<li><p>ISO C++ Standard defines two kinds of entities:</p>
+<ul>
+<li>Core language features.<ul>
+<li>Such as built-in types (e.g. char and int) and loops (e.g. for-statements and while-statements)</li>
+</ul>
+</li>
+<li>Standard-library components.<ul>
+<li>Such as containers (e.g. vector and map) and I/O operations (e.g. &lt;&lt; and getline())</li>
+<li>The standard-library components are perfectly ordinary C++ code provided by every C++ implementation. This implies that C++ is sufficiently expressive and efficient for the most demanding systems programming tasks.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>C++ is a statically typed language.</p>
+<ul>
+<li>That is, the type of every entity (e.g., object, value, name, and expression) must be known to the compiler at its point of use.</li>
+<li>The type of an object determines the set of operations applicable to it.</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-2-1-Hello-World"><a href="#2-2-1-Hello-World" class="headerlink" title="2.2.1 Hello, World!"></a>2.2.1 Hello, World!</h4><ol start="5">
+<li><p>The minimal C++ program is</p>
+<ul>
+<li>定义main函数</li>
+<li>没有任何参数</li>
+<li>什么都不做</li>
+<li>Curly braces, {}, expressing grouping in C++.</li>
+<li>// 单行注释<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;&#125; <span class="hljs-comment">// the minimal C++ program</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>Every C++ program must have exactly one global function named main(). </p>
+<ul>
+<li>The program starts by executing that function.</li>
+<li>The int value returned by main(), if any, is the program’s return value to “the system.” <ul>
+<li>If no value is return, the system will receive a value indicating successful compilation.</li>
+<li>A nonzero value from main() indicates failure.</li>
+<li>Not every operating system and execution envirnment make use of that return value:<ul>
+<li>Linux/Unix-based environments often do</li>
+<li>But Windows-based environments rarely do.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Typically, a program produces some output.</p>
+<ul>
+<li>The line <code>#include &lt;iostream&gt;</code>  instructs the compiler to include the declarations of standard stream I/O facilities as found in iostream.</li>
+<li>The operaor &lt;&lt; (“put to”) writes its second argument on its first.<ul>
+<li>The string literal “Hello, World!\n” is written onto the standard output stream std::cout.</li>
+<li>A string literal is a sequence of characters surrounded by double quotes.<ul>
+<li>In a string literal, the backslash character <code>\</code> followed by another character denotes a single ‘‘special character.’’</li>
+<li>In this case, <code>\n</code> is the newline character, so that the characters written are Hello, World! followed by a newline.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>The <code>std::</code> specifies that the name <code>cout</code> is to be found in the standard-library namespace.<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> </span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	std::cout &lt;&lt; <span class="hljs-string">&quot;Hello, World!\n&quot;</span>;<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>Essentially all executable code is placed in functions and called directly or indirectly from <code>main()</code>.</p>
+<ul>
+<li>A “return type” <code>void</code> indicates that a function does not return a value.<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> std; <span class="hljs-comment">// make names from std visible without std::</span><br><br><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">square</span><span class="hljs-params">(<span class="hljs-type">double</span> x)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> x*x;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">print_square</span><span class="hljs-params">(<span class="hljs-type">double</span> x)</span></span><br><span class="hljs-function"></span>&#123;<br>	cout &lt;&lt; <span class="hljs-string">&quot;The square of &quot;</span> &lt;&lt; x &lt;&lt; <span class="hljs-string">&quot; is &quot;</span> &lt;&lt; <span class="hljs-built_in">square</span>(x) &lt;&lt; <span class="hljs-string">&quot;\n&quot;</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">print_square</span>(<span class="hljs-number">1.234</span>);<br>&#125;<br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h4 id="2-2-2-Types-Variables-and-Arithmetic"><a href="#2-2-2-Types-Variables-and-Arithmetic" class="headerlink" title="2.2.2 Types, Variables, and Arithmetic"></a>2.2.2 Types, Variables, and Arithmetic</h4><ol start="9">
+<li><p>Every name and every expression has a type that determines the operations that may be performed on it.</p>
+<ul>
+<li>A declaration is a statement that introduces a name into the program. It specifies a type for the named entity.<ul>
+<li>A <em>type</em> defines a set of possible values and set of operations (for an object).</li>
+<li>An <em>object</em> is some memory that holds a value of some type.</li>
+<li>A <em>value</em> is a set of bits interpreted according to a type.</li>
+<li>A <em>variable</em> is a named object.<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">int</span> inch <span class="hljs-comment">// the declaration specifies that inch is of the type int</span><br></code></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>C++ offers a variety of fundamental types. </p>
+<ul>
+<li><code>bool</code>: true or false</li>
+<li><code>char</code>: character</li>
+<li><code>int</code>: integer</li>
+<li><code>double</code>: double-precision floating-point number</li>
+</ul>
+</li>
+<li><p>Each fundamental type corresponds directly to hardware facilities and has a fixed size that determines the range of values that can be stored in it.</p>
+<ul>
+<li>![](D:\obsidian\Louis\attachment\Pasted image 20230113203559.png)</li>
+<li>A <code>char</code> variable is of the natural size to hold a character on a given machine (typically an 8-bit byte).</li>
+<li>The sizes of other types are quoted in multiples of the size of a char.</li>
+<li>The size of a type is implementation-defined and can be obtained by the <code>sizeof</code> operator.</li>
+</ul>
+</li>
+</ol>
+<ol start="12">
+<li><p>The arithmetic operator can be used for appropriate combination of these types.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++">x+y <span class="hljs-comment">// plus</span><br>+x <span class="hljs-comment">// unary plus</span><br>x-y <span class="hljs-comment">//minus</span><br>-x <span class="hljs-comment">//unary minus</span><br>x*y <span class="hljs-comment">//multiply</span><br>x/y <span class="hljs-comment">//divide</span><br>x%y <span class="hljs-comment">// remainder (modulus) for integers</span><br></code></pre></td></tr></table></figure>
+<p>So can the comparision operators.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++">x==y <span class="hljs-comment">// equal</span><br>x!=y <span class="hljs-comment">// not equal</span><br>x&lt;y <span class="hljs-comment">// less than</span><br>x&gt;y <span class="hljs-comment">// greater than</span><br>x&lt;=y <span class="hljs-comment">// less than or equal</span><br>x&gt;=y <span class="hljs-comment">// greater than or equal</span><br></code></pre></td></tr></table></figure></li>
+<li><p>In assignments and in arithmetic operations, C++ performs all meaningful conversions between the basic types so that they can be mixed freely.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">some_function</span><span class="hljs-params">()</span> <span class="hljs-comment">// function that does not return a value</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">double</span> d = <span class="hljs-number">2.2</span>; <span class="hljs-comment">// initializa floating-point number</span><br>	<span class="hljs-type">int</span> i = <span class="hljs-number">7</span>; <span class="hljs-comment">// initialize integer</span><br>	d = d+i; <span class="hljs-comment">// assign sum of d+i to d</span><br>	i = d*i; <span class="hljs-comment">// assing product to i (truncating the double d*i to an int)</span><br>&#125;<br></code></pre></td></tr></table></figure>
+<p>Note that <code>=</code> is the assignment operator and <code>==</code> test equality.</p>
+</li>
+<li><p>C++ offers a variety of notations for expressing initialization.</p>
+<ul>
+<li>the <code>=</code> used above</li>
+<li>a universal form based on <code>curly-brace-delimited initializer lists</code>.</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-type">double</span> d1 = <span class="hljs-number">2.3</span>;<br><span class="hljs-type">double</span> d2&#123;<span class="hljs-number">2.3</span>&#125;;<br><br>complex&lt;<span class="hljs-type">double</span>&gt; z = <span class="hljs-number">1</span>; <span class="hljs-comment">// a complex number with double-precision floating-point scalars</span><br>complex&lt;<span class="hljs-type">double</span>&gt; z2&#123;d1,d2&#125;<br>complex&lt;<span class="hljs-type">double</span>&gt; z3 = &#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>&#125;; <span class="hljs-comment">// the = is optional with &#123;...&#125;</span><br><br>vector&lt;<span class="hljs-type">int</span>&gt; v&#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">4</span>,<span class="hljs-number">5</span>,<span class="hljs-number">6</span>&#125;; <span class="hljs-comment">// a vector of ints</span><br></code></pre></td></tr></table></figure>
+<p>The <code>=</code> form is traditional and dates back to C, but if in doubt, use the general {}-list form. If nothing else, it saves you from conversions that lose information (narrowing conversion).</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">int</span> i1 = <span class="hljs-number">7.2</span>; <span class="hljs-comment">// i1 becomes 7</span><br><span class="hljs-type">int</span> i2&#123;<span class="hljs-number">7.2</span>&#125;; <span class="hljs-comment">// error: floating-point to integer conversion (narrowing conversion)</span><br><span class="hljs-type">int</span> i3 = &#123;<span class="hljs-number">7.2</span>&#125;; <span class="hljs-comment">// error: floating-point to integer conversion (the = is redundant)</span><br></code></pre></td></tr></table></figure>
+
+<ol start="15">
+<li><p>A constant cannot be left uninitialized and a variable should only be left uninitialized in extremely rare circumstances.</p>
+<ul>
+<li>Don’t introduce a name untial you have a suitable value for it.</li>
+<li>User-defined types (such as string, vector, Matrix, Motor_controller, and Orc_warrior) can be definec to be implicitly initialized.</li>
+</ul>
+</li>
+<li><p>When defining a variable, you don;t actually need to state its type explicitly when it can be deduced from the initializer.</p>
+</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">auto</span> b = <span class="hljs-literal">true</span>; <span class="hljs-comment">// a bool</span><br><span class="hljs-keyword">auto</span> ch = <span class="hljs-string">&#x27;x&#x27;</span>; <span class="hljs-comment">// a char</span><br><span class="hljs-keyword">auto</span> i = <span class="hljs-number">123</span>; <span class="hljs-comment">// an int</span><br><span class="hljs-keyword">auto</span> d = <span class="hljs-number">1.2</span>; <span class="hljs-comment">// a double</span><br><span class="hljs-keyword">auto</span> z = <span class="hljs-built_in">sqrt</span>(y); <span class="hljs-comment">// z has the type of whatever sqrt(y) returns</span><br></code></pre></td></tr></table></figure>
+
+<p>With <code>auto</code>, we use the <code>=</code> syntax because there is no type conversion involved that might cause problems.</p>
+<ol start="17">
+<li>We use <code>auto</code> where we don’t have a specific reason to mention the type explicitly. “Specific reasons” include:<ul>
+<li>The definition is in a large scope where we want to make the type clearly visible to readers of our code.</li>
+<li>We want to be explicit about a variable’s range or precision (e.g., double rather than float).</li>
+</ul>
+</li>
+</ol>
+<p>Using auto, we avoid redundancy and writing long type names.</p>
+<ol start="18">
+<li>In addition to the conventional arithmetic and logical operators, C++ offers more specific operations for modifying a variable.</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++">x+=y; <span class="hljs-comment">// x = x+y</span><br>++x; <span class="hljs-comment">// increment: x = x+1</span><br>x-=y; <span class="hljs-comment">// x = x-y</span><br>--x; <span class="hljs-comment">// decrement: x = x-1</span><br>x*=y; <span class="hljs-comment">// scaling: x = x*y</span><br>x/=y; <span class="hljs-comment">// scaling: x = x/y</span><br>x%=y; <span class="hljs-comment">// x = x%y</span><br></code></pre></td></tr></table></figure>
+
+<p>Thes operators are concise, convenient, and very frequently used.</p>
+<h4 id="2-2-3-Constants"><a href="#2-2-3-Constants" class="headerlink" title="2.2.3 Constants"></a>2.2.3 Constants</h4><h2 id="Chapter-17"><a href="#Chapter-17" class="headerlink" title="Chapter 17"></a>Chapter 17</h2><h3 id="17-1-Introdution"><a href="#17-1-Introdution" class="headerlink" title="17.1 Introdution"></a>17.1 Introdution</h3><ul>
+<li><p>This chapter focuses on technical aspects of an objects’s “life cycle”:</p>
+<ul>
+<li>How do we <strong>create</strong> an object?</li>
+<li>How do we <strong>copy</strong> it, how do we <strong>move</strong> it around?</li>
+<li>How do we <strong>clean up</strong> after it when it goes away?</li>
+<li>What are proper definitions of “copy” and “move”?</li>
+</ul>
+</li>
+<li><p>Example</p>
+<ul>
+<li> ![](D:\obsidian\Louis\attachment\Pasted image 20221219144149.png)</li>
+<li>用到的functions：<ul>
+<li>constructor</li>
+<li>copy constructor</li>
+<li>move constructor</li>
+<li>move assignment</li>
+<li>copy assignment</li>
+<li>destructor</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>The difference between <em><strong>move</strong></em> and <em><strong>copy</strong></em>:</p>
+<ul>
+<li>After a copy two objects must have the same value.</li>
+<li>After a move the source of the move is not required to have its original value.<ul>
+<li><em><strong>Move</strong></em> can be used when the source object will not be used again. They are very useful for implementing the notion of moving a resource.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Constructors, copy and move assignment operations, and destructos directly support a view of lifetime and resource management.</p>
+</li>
+<li><p>Constructors, destructors, and copy and move operations for a type are not logically separate.</p>
+</li>
+</ul>
+<ul>
+<li>Constructors and Destructors</li>
+<li>Class Object Initialization</li>
+<li>Member and Base Initialization</li>
+<li>Copy and Move</li>
+<li>Generating Default Operations</li>
+<li>Advice</li>
+</ul>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C++ Programming Language Notes</div>
+      <div>http://example.com/2023/01/13/C-Programming-Language-Notes/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>John Doe</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>January 13, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/01/08/%E5%89%91%E6%8C%87offer/" title="剑指offer">
+                        <span class="hidden-mobile">剑指offer</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
