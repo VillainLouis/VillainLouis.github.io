@@ -24,7 +24,7 @@
 <meta property="og:description" content="坑点 往年的项目对应的测试文件被修改了，如果不手动修改，则不能成功使用对应的测试。 具体操作如下，以.&#x2F;test&#x2F;buffer&#x2F;clock_replacer_test.cpp文件为例：  从官方的仓库中拉取得到的文件中，可以看到TEST(ClockReplacerTest, DISABLED_SampleTest)。  如果想要启用对应的测试模块，则需要手动修改为TEST(ClockReplace">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-05-02T08:07:55.000Z">
-<meta property="article:modified_time" content="2023-05-02T09:02:20.417Z">
+<meta property="article:modified_time" content="2023-05-02T13:26:03.575Z">
 <meta property="article:author" content="V. Louis">
 <meta property="article:tag" content="database system C++">
 <meta name="twitter:card" content="summary_large_image">
@@ -371,11 +371,11 @@
 <li>因为需要访问<code>clock</code>帧，所以需要加锁。</li>
 <li>循环查找第一个在<code>clock</code>中的<code>ref</code>位为<code>false</code>的帧；遇到<code>ref == true</code>的帧，则<code>ref = false</code>。</li>
 <li>找到符合条件的帧之后，将其从<code>clock</code>中移除，<code>in_clock</code>置为<code>false</code>；并将帧号记录到<code>frame_id</code>指针指向的内存位置，<code>*frame_id = clock_cursor_</code>。返回<code>true</code>。</li>
-<li>实现<code>Pin(T)</code> : </li>
 </ol>
 </li>
-<li><p>判断给定的<code>frame_id</code>是否越界。利用<code>assert</code>断言进行判断。</p>
+<li><p>实现<code>Pin(T)</code> : </p>
 <ol>
+<li>判断给定的<code>frame_id</code>是否越界。利用<code>assert</code>断言进行判断。</li>
 <li>互斥锁。</li>
 <li>将对应的<code>in_clock</code>位置为<code>false</code>。</li>
 </ol>
