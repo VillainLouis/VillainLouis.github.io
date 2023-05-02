@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="V. Louis">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="坑点 往年的项目对应的测试文件被修改了，如果不手动修改，则不能成功使用对应的测试。 具体操作如下，以.&#x2F;test&#x2F;buffer&#x2F;clock_replacer_test.cpp文件为例：  从官方的仓库中拉取得到的文件中，可以看到TEST(ClockReplacerTest, DISABLED_SampleTest)。  如果想要启用对应的测试模块，则需要手动修改为TEST(ClockReplace">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CMU 15-445&#x2F;645">
+<meta property="og:url" content="http://example.com/2023/05/02/CMU-15-445-645/index.html">
+<meta property="og:site_name" content="V. Louis">
+<meta property="og:description" content="坑点 往年的项目对应的测试文件被修改了，如果不手动修改，则不能成功使用对应的测试。 具体操作如下，以.&#x2F;test&#x2F;buffer&#x2F;clock_replacer_test.cpp文件为例：  从官方的仓库中拉取得到的文件中，可以看到TEST(ClockReplacerTest, DISABLED_SampleTest)。  如果想要启用对应的测试模块，则需要手动修改为TEST(ClockReplace">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2023-05-02T08:07:55.000Z">
+<meta property="article:modified_time" content="2023-05-02T09:02:20.417Z">
+<meta property="article:author" content="V. Louis">
+<meta property="article:tag" content="database system C++">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>CMU 15-445/645 - V. Louis</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 5.4.2"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Villian Louis&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>Home</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>Archives</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>Categories</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>Tags</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>About</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="CMU 15-445/645"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-02 16:07" pubdate>
+          May 2, 2023 pm
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          2.2k words
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          19 mins
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">CMU 15-445/645</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h1 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h1><ol>
+<li><p>往年的项目对应的测试文件被修改了，如果不手动修改，则不能成功使用对应的测试。</p>
+<p>具体操作如下，以<code>./test/buffer/clock_replacer_test.cpp</code>文件为例：</p>
+<ul>
+<li><p>从官方的仓库中拉取得到的文件中，可以看到<code>TEST(ClockReplacerTest, DISABLED_SampleTest)</code>。</p>
+</li>
+<li><p>如果想要启用对应的测试模块，则需要手动修改为<code>TEST(ClockReplacerTest, SampleTest)</code>，即去掉<code>DISABLE</code>。</p>
+</li>
+</ul>
+</li>
+<li><p>注册<a target="_blank" rel="noopener" href="https://www.gradescope.com/courses/500628">15-445/645 (Non-CMU) Dashboard | Gradescope</a>:</p>
+<ul>
+<li>一些课程开放了在想的打分的网站，可以更好评估项目的效果。</li>
+<li>2019年并没有提供，2023年的提供了，这里主要介绍如何根据课程的邀请码（可以在课程介绍，或是FAQ等地方找到）：<ul>
+<li>有了邀请码之后就可以注册帐号了，需要一个自己的邮箱。</li>
+<li>关键在于选择学校，<strong>不是自己的学校，是对应开放课程的学校</strong>。如CMU 15-445/645我们就应该选择CMU。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="2019"><a href="#2019" class="headerlink" title="2019"></a>2019</h1><h2 id="Project-1"><a href="#Project-1" class="headerlink" title="Project 1"></a>Project 1</h2><h3 id="Task-1-CLOCK-replacement-policy"><a href="#Task-1-CLOCK-replacement-policy" class="headerlink" title="Task 1 CLOCK replacement policy"></a>Task 1 <code>CLOCK</code> replacement policy</h3><h4 id="Preliminary"><a href="#Preliminary" class="headerlink" title="Preliminary"></a>Preliminary</h4><p><a target="_blank" rel="noopener" href="https://15445.courses.cs.cmu.edu/fall2019/project1/">Project #1 - Buffer Pool | CMU 15-445/645 :: Intro to Database Systems (Fall 2019)</a></p>
+<p><code>clock</code> replacement policy近似LRU替换算法。<br>具体地，对于该算法而言，需要一下成员：</p>
+<ul>
+<li>记录<code>clock</code>中的帧</li>
+<li>一个时针指向某一帧</li>
+</ul>
+<p>可以参考项目介绍。</p>
+<p>以下是需要我们实现的函数：</p>
+<ol>
+<li><p>需要实现的子类是<code>ClockReplacer</code>：</p>
+<ul>
+<li>头文件：<code>src/include/buffer/clock_replacer.h</code></li>
+<li>实现文件：<code>src/buffer/clock_replacer.cpp</code></li>
+</ul>
+</li>
+<li><p>You will need to implement the <em>clock</em> policy discussed in the class. You will need to implement the following methods:</p>
+<ul>
+<li><code>Victim(T*)</code> : <ul>
+<li>Starting from the current position of clock hand, find the first frame that is both in the <code>ClockReplacer</code> and with its ref flag set to <code>false</code>. </li>
+<li>If a frame is in the <code>ClockReplacer</code>, but its ref flag is set to <code>true</code>, change it to <code>false</code> instead. </li>
+</ul>
+</li>
+<li><code>Pin(T)</code> : <ul>
+<li>This method should be called after a page is pinned to a frame in the <code>BufferPoolManager</code>. </li>
+<li>It should remove the frame containing the pinned page from the <code>ClockReplacer</code>.</li>
+</ul>
+</li>
+<li><code>Unpin(T)</code> : <ul>
+<li>This method should be called when the <code>pin_count</code> of a page becomes 0. </li>
+<li>This method should add the frame containing the unpinned page to the <code>ClockReplacer</code>.</li>
+</ul>
+</li>
+<li><code>Size()</code> : <ul>
+<li>This method returns the number of frames that are currently in the <code>ClockReplacer</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>需要保证线程安全。</p>
+</li>
+</ol>
+<h4 id="Implementation"><a href="#Implementation" class="headerlink" title="Implementation"></a>Implementation</h4><ol>
+<li><p>需要一个互斥锁来实现函数，保证函数是<strong>线程安全</strong>的。<br> 具体地：</p>
+<ul>
+<li>使用了C++提供的<code>std::shared_mutex</code>作为互斥锁。理由是相比于普通的<code>std::mutex</code>更加高效。<ul>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/46452973/difference-between-stdmutex-and-stdshared-mutex">c++ - difference between std::mutex and std::shared_mutex - Stack Overflow</a></li>
+<li><a target="_blank" rel="noopener" href="https://en.cppreference.com/w/cpp/thread/shared_mutex">std::shared_mutex - cppreference.com</a></li>
+</ul>
+</li>
+<li>使用<code>std::lock_guard</code>实现对于互斥锁的RAII。</li>
+</ul>
+</li>
+<li><p>确定实现<code>clock</code>使用的数据结构：</p>
+<ul>
+<li>一开始本来向利用链表实现，后面发现比较傻，因为不方便管理所有帧（在<code>clock</code>中和不在<code>clock</code>中）。</li>
+<li>参考了<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhiyiYo/p/16429079.html">CMU15445 (Fall 2019) 之 Project#1 - Buffer Pool 详解 - 之一Yo - 博客园 (cnblogs.com)</a>：<ul>
+<li>利用<code>std:vecotor</code>作为容器存帧，<ul>
+<li>每一帧使用标志记录是否在<code>clock</code>中，以及其<code>ref</code>是否为<code>true</code>。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>实现<code>Size()</code> : </p>
+<ol>
+<li>互斥锁。</li>
+<li>直接遍历计数所有的<code>in_clock</code>位为真的数量。</li>
+</ol>
+</li>
+<li><p>实现<code>Victim(T*)</code>：</p>
+<ol>
+<li>首先需要确定<code>clock</code>中帧的数量：<code>Size() == 0</code>直接返回；否则继续处理。</li>
+<li>因为需要访问<code>clock</code>帧，所以需要加锁。</li>
+<li>循环查找第一个在<code>clock</code>中的<code>ref</code>位为<code>false</code>的帧；遇到<code>ref == true</code>的帧，则<code>ref = false</code>。</li>
+<li>找到符合条件的帧之后，将其从<code>clock</code>中移除，<code>in_clock</code>置为<code>false</code>；并将帧号记录到<code>frame_id</code>指针指向的内存位置，<code>*frame_id = clock_cursor_</code>。返回<code>true</code>。</li>
+<li>实现<code>Pin(T)</code> : </li>
+</ol>
+</li>
+<li><p>判断给定的<code>frame_id</code>是否越界。利用<code>assert</code>断言进行判断。</p>
+<ol>
+<li>互斥锁。</li>
+<li>将对应的<code>in_clock</code>位置为<code>false</code>。</li>
+</ol>
+</li>
+<li><p>实现<code>Unpin(T)</code> : </p>
+<ol>
+<li>判断给定的<code>frame_id</code>是否越界。利用<code>assert</code>断言进行判断。</li>
+<li>互斥锁。</li>
+<li>将对应的<code>in_clock</code>位置为<code>true</code>，<code>ref</code>位置为<code>true</code>表示刚被访问过之后加入<code>clock</code>。</li>
+</ol>
+</li>
+</ol>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/database-system-C/">#database system C++</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>CMU 15-445/645</div>
+      <div>http://example.com/2023/05/02/CMU-15-445-645/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>Author</div>
+          <div>V. Louis</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>Posted on</div>
+          <div>May 2, 2023</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>Licensed under</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - Attribution">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/10/MySQL-notes/" title="MySQL-notes">
+                        <span class="hidden-mobile">MySQL-notes</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>Table of Contents</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">Keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">Blog works best with JavaScript enabled</div>
+  </noscript>
+</body>
+</html>
