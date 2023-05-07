@@ -24,7 +24,7 @@
 <meta property="og:description" content="坑点 往年的项目对应的测试文件被修改了，如果不手动修改，则不能成功使用对应的测试。 具体操作如下，以.&#x2F;test&#x2F;buffer&#x2F;clock_replacer_test.cpp文件为例：  从官方的仓库中拉取得到的文件中，可以看到TEST(ClockReplacerTest, DISABLED_SampleTest)。  如果想要启用对应的测试模块，则需要手动修改为TEST(ClockReplace">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2023-05-02T08:07:55.000Z">
-<meta property="article:modified_time" content="2023-05-02T13:27:51.639Z">
+<meta property="article:modified_time" content="2023-05-07T07:12:16.109Z">
 <meta property="article:author" content="V. Louis">
 <meta property="article:tag" content="database system">
 <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.2k words
+          2.7k words
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          19 mins
+          23 mins
         
       </span>
     
@@ -388,6 +388,34 @@
 </ol>
 </li>
 </ol>
+<h3 id="Task2-Buffer-Pool-Manager"><a href="#Task2-Buffer-Pool-Manager" class="headerlink" title="Task2 - Buffer Pool Manager"></a>Task2 - Buffer Pool Manager</h3><p>需要实现的函数包括：</p>
+<ul>
+<li><code>FetchPageImpl(page_id)</code><ul>
+<li>根据page id，从buffer pool中获取对应的页，如果不在buffer pool中，则从磁盘读入。</li>
+</ul>
+</li>
+<li><code>NewPageImpl(page_id)</code><ul>
+<li>文件系统中新建一页，并放入buffer pool中方便读写（可能涉及页替换），返回新页在内存中的指针。</li>
+</ul>
+</li>
+<li><code>UnpinPageImpl(page_id, is_dirty)</code><ul>
+<li>根据页号，将对应的页面在buffer pool中的pin引用值减一，如果pin引用值为0，加入replacer。</li>
+</ul>
+</li>
+<li><code>FlushPageImpl(page_id)</code><ul>
+<li>将buffer pool中的目标页写回磁盘（当页面存在buffer pool中并且脏位为真才写回），写回之后重置脏位。</li>
+</ul>
+</li>
+<li><code>DeletePageImpl(page_id)</code><ul>
+<li>从缓冲池和数据库文件中删除一页。</li>
+</ul>
+</li>
+<li><code>FlushAllPagesImpl()</code><ul>
+<li>将buffer pool中的所有页都写回磁盘。</li>
+</ul>
+</li>
+</ul>
+<p>每个函数都有相应的实现说明，因此难度不大。</p>
 
                 
               </div>
