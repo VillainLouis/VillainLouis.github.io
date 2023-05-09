@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>UCB CS 61B Notes</title>
+    <link href="/2023/05/09/UCB-CS-61B-Notes/"/>
+    <url>/2023/05/09/UCB-CS-61B-Notes/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Project-0-NBody-java"><a href="#Project-0-NBody-java" class="headerlink" title="Project 0 NBody.java"></a>Project 0 NBody.java</h1><ul><li>实现了一个模拟星系的简单程序，比较有趣。</li><li>主要学习到了<code>StdDraw</code>绘图的一些相关函数。其他的基本上按照实验手册就可以了。</li></ul>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CMU 15-445/645</title>
     <link href="/2023/05/02/CMU-15-445-645/"/>
     <url>/2023/05/02/CMU-15-445-645/</url>
