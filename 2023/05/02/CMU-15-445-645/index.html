@@ -34,7 +34,7 @@
 <meta property="og:image" content="d:/OneDrive/Blog/source_posts/CMU-15-445-645.assets/image-20230512190010619.png">
 <meta property="og:image" content="d:/OneDrive/Blog/source_posts/CMU-15-445-645.assets/image-20230512190021421.png">
 <meta property="article:published_time" content="2023-05-02T08:07:55.000Z">
-<meta property="article:modified_time" content="2023-05-12T11:17:28.532Z">
+<meta property="article:modified_time" content="2023-05-15T10:26:20.577Z">
 <meta property="article:author" content="V. Louis">
 <meta property="article:tag" content="database system">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          12k words
+          16k words
         
       </span>
     
@@ -242,7 +242,7 @@
         
         
         
-          104 mins
+          130 mins
         
       </span>
     
@@ -606,6 +606,100 @@ return 0;
 
 
 
+<h3 id="Task-2-LRU-K-Replacement-Policy"><a href="#Task-2-LRU-K-Replacement-Policy" class="headerlink" title="Task 2 LRU-K Replacement Policy"></a>Task 2 LRU-K Replacement Policy</h3><h4 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h4><p>需要实现<code>LRUKReplacer</code></p>
+<p>涉及到的文件：</p>
+<ul>
+<li><code>src/include/buffer/lru_k_replacer.h</code></li>
+<li><code>src/buffer/lru_k_replacer.cpp</code></li>
+</ul>
+<p>LRU-K算法：</p>
+<ul>
+<li>The LRU-K algorithm evicts a frame whose backward k-distance is maximum of all frames in the replacer.</li>
+<li>Backward k-distance is computed as the difference in time between current timestamp and the timestamp of kth previous access. </li>
+<li>A frame with less than k historical accesses is given <code>+inf</code> as its backward k-distance.</li>
+<li>When multipe frames have <code>+inf</code> backward k-distance, the replacer evicts the frame with the earliest timestamp.</li>
+</ul>
+<p>LRUReplacer的最大容量与buffer pool的容量相同。</p>
+<ul>
+<li>It contains placeholders for all of the frames in the <code>BufferPoolManager</code>.<ul>
+<li>However, at any given moment not all the frames in the replacer are considered to be evictable. </li>
+</ul>
+</li>
+<li>The size of <code>LRUKReplacer</code> is represented by the number of <em>evictable</em> frames. <ul>
+<li>The <code>LRUKReplacer</code> is initialized to have no frames in it. </li>
+<li>Then, only when a frame is marked as evictable, replacer’s size will increase.</li>
+</ul>
+</li>
+</ul>
+<p>需要实现的函数：</p>
+<ul>
+<li><code>Evict(frame_id_t*)</code> : Evict the frame with largest backward k-distance compared to all other <strong>evictable</strong> frames being tracked by the <code>Replacer</code>. Store the frame id in the output parameter and return <code>True</code>. If there are no evictable frames return <code>False</code>.</li>
+<li><code>RecordAccess(frame_id_t)</code> : Record that given frame id is accessed at current timestamp. This method should be called after a page is pinned in the <code>BufferPoolManager</code>.</li>
+<li><code>Remove(frame_id_t)</code> : Clear all access history associated with a frame. This method should be called only when a page is deleted in the <code>BufferPoolManager</code>.</li>
+<li><code>SetEvictable(frame_id_t, bool set_evictable)</code> : This method controls whether a frame is evictable or not. It also controls <code>LRUKReplacer</code>‘s size. You’ll know when to call this function when you implement the <code>BufferPoolManager</code>. To be specific, when pin count of a page reaches 0, its corresponding frame is marked evictable and replacer’s size is incremented.</li>
+<li><code>Size()</code> : This method returns the number of evictable frames that are currently in the <code>LRUKReplacer</code>.</li>
+</ul>
+<h4 id="具体注意事项"><a href="#具体注意事项" class="headerlink" title="具体注意事项"></a>具体注意事项</h4><h5 id="理解LRU-K算法"><a href="#理解LRU-K算法" class="headerlink" title="理解LRU-K算法"></a>理解LRU-K算法</h5><p>此任务的关键在于理清楚LRU-K算法的具体流程。</p>
+<p>首先需要知道的是LRU-K replacer本质上只是buffer pool中的所有页面访问记录的一个追踪器。</p>
+<p>具体的，<code>k</code>作为一个关键的参数，在replacer中选择替换页面的时候：</p>
+<ul>
+<li>优先从访问次数<code>&lt; k</code>次的页面中寻找替换页面，并且实行的时候FIFO策略，即某一页被访问的次数不足k的时候，不采取LRU策略，而是朴素的FIFO策略；</li>
+<li>如果所有的页面访问次数都<code>&gt; k</code>次，则实行LRU策略，即替换页面选择最近没有被访问的。</li>
+</ul>
+<h5 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h5><p>由于需要对不同访问次数的页面实行不同的替换策略，因此维护两个<code>list</code>:</p>
+<ul>
+<li>访问次数<code>&lt; k</code>:<ul>
+<li>用一个<code>list</code>实现队列操作，每次在队头插入，队尾删除；</li>
+<li>记为<code>history_</code>。</li>
+</ul>
+</li>
+<li>访问次数<code>&gt; k</code>:<ul>
+<li>用一个<code>list</code>实现LRU操作，访问的时候及时更新。</li>
+<li>记为<code>buffer_</code>。</li>
+</ul>
+</li>
+</ul>
+<p>使用两个哈希表，分别来加速<code>history_</code>和<code>buffer_</code>中的元素的访问和删除操作。</p>
+<p>对于页面还需要设置其是否可以被替换，而页面的数量是固定的，因此使用一个向量<code>std::vector&lt;bool&gt;</code>存储页面是否可以被替换。</p>
+<p>同样的，页面的访问次数也需要记录，并且数量是固定的，使用一个向量<code>std::vector&lt;size_t&gt;</code>存储当前页面被访问的次数。</p>
+<ul>
+<li>访问次数可以用来确定采用什么策略：<ul>
+<li>访问次数<code>= 1</code>，加入<code>history_</code>。</li>
+<li>访问次数<code>&lt; k</code>，在<code>history_</code>中。</li>
+<li>访问次数<code>&gt;= k</code>，在<code>buffer_</code>中。</li>
+</ul>
+</li>
+</ul>
+<p>需要维护当前replacer的大小<code>cur_size_</code>，即replacer中可以被替换的页面总数。</p>
+<p>下面是具体使用到的数据结构：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">LRUKReplacer</span> &#123;<br>  <span class="hljs-type">size_t</span> curr_size_&#123;<span class="hljs-number">0</span>&#125;;<br>  <span class="hljs-type">size_t</span> replacer_size_;<br>  <span class="hljs-type">size_t</span> k_;<br>  std::mutex latch_;<br>  std::list&lt;<span class="hljs-type">frame_id_t</span>&gt; history_;<br>  std::list&lt;<span class="hljs-type">frame_id_t</span>&gt; buffer_;<br>  std::unordered_map&lt;<span class="hljs-type">frame_id_t</span>, <span class="hljs-keyword">decltype</span>(buffer_.begin())&gt; hmap_;<br>  std::unordered_map&lt;<span class="hljs-type">frame_id_t</span>, <span class="hljs-keyword">decltype</span>(buffer_.begin())&gt; bmap_;<br>  std::vector&lt;<span class="hljs-type">bool</span>&gt; is_evictable_;<br>  std::vector&lt;<span class="hljs-type">size_t</span>&gt; access_count_;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<h5 id="函数实现"><a href="#函数实现" class="headerlink" title="函数实现"></a>函数实现</h5><ul>
+<li><code>Evict(frame_id_t*)</code> : <ul>
+<li>尝试找出可以被替换的页面。</li>
+<li>优先选择不到k次访问的，不到k次使用FIFO，到达k次访问使用LRU。</li>
+</ul>
+</li>
+<li><code>RecordAccess(frame_id_t)</code> : <ul>
+<li>记录当前被访问的帧的相关信息。</li>
+<li>可能涉及调整操作，根据访问次数和<code>k</code>值决定。</li>
+</ul>
+</li>
+<li><code>Remove(frame_id_t)</code> : <ul>
+<li>移除页面</li>
+<li>重置数据</li>
+</ul>
+</li>
+<li><code>SetEvictable(frame_id_t, bool set_evictable)</code> : <ul>
+<li>设置是否可以evict</li>
+<li>涉及replacer当前大小的调整</li>
+</ul>
+</li>
+<li><code>Size()</code> : <ul>
+<li>返回当前大小。</li>
+</ul>
+</li>
+</ul>
 
                 
               </div>
