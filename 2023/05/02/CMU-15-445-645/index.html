@@ -33,8 +33,9 @@
 <meta property="og:image" content="d:/OneDrive/Blog/source_posts/CMU-15-445-645.assets/image-20230512185953997.png">
 <meta property="og:image" content="d:/OneDrive/Blog/source_posts/CMU-15-445-645.assets/image-20230512190010619.png">
 <meta property="og:image" content="d:/OneDrive/Blog/source_posts/CMU-15-445-645.assets/image-20230512190021421.png">
+<meta property="og:image" content="d:/OneDrive/Blog/source_posts/CMU-15-445-645.assets/image-20230617154804903.png">
 <meta property="article:published_time" content="2023-05-02T08:07:55.000Z">
-<meta property="article:modified_time" content="2023-05-15T10:26:20.577Z">
+<meta property="article:modified_time" content="2023-06-23T07:16:18.000Z">
 <meta property="article:author" content="V. Louis">
 <meta property="article:tag" content="database system">
 <meta name="twitter:card" content="summary_large_image">
@@ -231,7 +232,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          16k words
+          22k words
         
       </span>
     
@@ -242,7 +243,7 @@
         
         
         
-          130 mins
+          187 mins
         
       </span>
     
@@ -427,7 +428,18 @@
 </li>
 </ul>
 <p>每个函数都有相应的实现说明，因此难度不大。</p>
-<h1 id="2022"><a href="#2022" class="headerlink" title="2022"></a>2022</h1><h2 id="Project-0-C-Primer"><a href="#Project-0-C-Primer" class="headerlink" title="Project 0 C++ Primer"></a>Project 0 C++ Primer</h2><h3 id="项目任务"><a href="#项目任务" class="headerlink" title="项目任务"></a>项目任务</h3><p>有两个任务需要完成：</p>
+<h1 id="2022"><a href="#2022" class="headerlink" title="2022"></a>2022</h1><p>p0:</p>
+<ul>
+<li>实现多线程安全的字典树</li>
+</ul>
+<p>p1:</p>
+<ul>
+<li>可扩展的哈希表</li>
+<li>LRU-K替换策略</li>
+<li>Buffer Pool Manger</li>
+</ul>
+<p>p2:</p>
+<h2 id="Project-0-C-Primer"><a href="#Project-0-C-Primer" class="headerlink" title="Project 0 C++ Primer"></a>Project 0 C++ Primer</h2><h3 id="项目任务"><a href="#项目任务" class="headerlink" title="项目任务"></a>项目任务</h3><p>有两个任务需要完成：</p>
 <ol>
 <li>实现字典树</li>
 <li>用读写锁实现字典树的多线程安全访问</li>
@@ -536,15 +548,7 @@ return 0;
 <h5 id="提交的注意事项"><a href="#提交的注意事项" class="headerlink" title="提交的注意事项"></a>提交的注意事项</h5><p>需要调整格式，使用以下指令调整format：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs bash">make format<br>make check-lint<br>make check-clang-tidy-p0<br></code></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
-<h2 id="Project-1-1"><a href="#Project-1-1" class="headerlink" title="Project 1"></a>Project 1</h2><h3 id="Task-1-Extendible-Hash-Table-EHT"><a href="#Task-1-Extendible-Hash-Table-EHT" class="headerlink" title="Task 1 Extendible Hash Table (EHT)"></a>Task 1 Extendible Hash Table (EHT)</h3><p>需要实现一个自动扩容的EHT。</p>
+<h3 id="任务2"><a href="#任务2" class="headerlink" title="任务2"></a>任务2</h3><h2 id="Project-1-1"><a href="#Project-1-1" class="headerlink" title="Project 1"></a>Project 1</h2><h3 id="Task-1-Extendible-Hash-Table-EHT"><a href="#Task-1-Extendible-Hash-Table-EHT" class="headerlink" title="Task 1 Extendible Hash Table (EHT)"></a>Task 1 Extendible Hash Table (EHT)</h3><p>需要实现一个自动扩容的EHT。</p>
 <p>需要修改的文件包括：</p>
 <ul>
 <li><code>src/include/container/hash/extendible_hash_table.h</code></li>
@@ -700,6 +704,99 @@ return 0;
 </ul>
 </li>
 </ul>
+<h3 id="Task-3-Buffer-Pool-Manager"><a href="#Task-3-Buffer-Pool-Manager" class="headerlink" title="Task 3 Buffer Pool Manager"></a>Task 3 Buffer Pool Manager</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">//===----------------------------------------------------------------------===//</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//                         BusTub</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">// buffer_pool_manager_instance.cpp</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">// Identification: src/buffer/buffer_pool_manager.cpp</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">// Copyright (c) 2015-2021, Carnegie Mellon University Database Group</span><br><span class="hljs-comment">//</span><br><span class="hljs-comment">//===----------------------------------------------------------------------===//</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;buffer/buffer_pool_manager_instance.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstddef&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;shared_mutex&gt;</span></span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;common/config.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;common/macros.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;storage/page/page.h&quot;</span></span><br><br><span class="hljs-keyword">namespace</span> bustub &#123;<br><br>BufferPoolManagerInstance::<span class="hljs-built_in">BufferPoolManagerInstance</span>(<span class="hljs-type">size_t</span> pool_size, DiskManager *disk_manager, <span class="hljs-type">size_t</span> replacer_k,<br>                                                     LogManager *log_manager)<br>    : <span class="hljs-built_in">pool_size_</span>(pool_size), <span class="hljs-built_in">disk_manager_</span>(disk_manager), <span class="hljs-built_in">log_manager_</span>(log_manager) &#123;<br>  <span class="hljs-comment">// we allocate a consecutive memory space for the buffer pool</span><br>  pages_ = <span class="hljs-keyword">new</span> Page[pool_size_];<br>  page_table_ = <span class="hljs-keyword">new</span> <span class="hljs-built_in">ExtendibleHashTable</span>&lt;<span class="hljs-type">page_id_t</span>, <span class="hljs-type">frame_id_t</span>&gt;(bucket_size_);<br>  replacer_ = <span class="hljs-keyword">new</span> <span class="hljs-built_in">LRUKReplacer</span>(pool_size, replacer_k);<br><br>  <span class="hljs-comment">// Initially, every page is in the free list.</span><br>  <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; pool_size_; ++i) &#123;<br>    free_list_.<span class="hljs-built_in">emplace_back</span>(<span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">int</span>&gt;(i));<br>  &#125;<br>&#125;<br><br>BufferPoolManagerInstance::~<span class="hljs-built_in">BufferPoolManagerInstance</span>() &#123;<br>  <span class="hljs-keyword">delete</span>[] pages_;<br>  <span class="hljs-keyword">delete</span> page_table_;<br>  <span class="hljs-keyword">delete</span> replacer_;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">BufferPoolManagerInstance::NewPgImp</span><span class="hljs-params">(<span class="hljs-type">page_id_t</span> *page_id)</span> -&gt; Page * </span>&#123;<br>  <span class="hljs-function">std::lock_guard&lt;std::shared_mutex&gt; <span class="hljs-title">lock</span><span class="hljs-params">(latch_)</span></span>;<br><br>  <span class="hljs-comment">// 获取放入buffer pool中的替换帧号</span><br>  <span class="hljs-keyword">auto</span> frame = <span class="hljs-built_in">GetReplaceFrame</span>();<br>  <span class="hljs-keyword">if</span> (frame == INVALID_PAGE_ID) &#123;<br>    *page_id = INVALID_PAGE_ID;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;<br>  &#125;<br>  <span class="hljs-comment">// 获取新插入的页号</span><br>  <span class="hljs-keyword">auto</span> pg_id = <span class="hljs-built_in">AllocatePage</span>();<br>  *page_id = pg_id;<br>  <span class="hljs-comment">// 如果原来的帧对应的页被修改，则写回</span><br>  <span class="hljs-keyword">if</span> (pages_[frame].<span class="hljs-built_in">IsDirty</span>()) &#123;<br>    disk_manager_-&gt;<span class="hljs-built_in">WritePage</span>(pages_[frame].<span class="hljs-built_in">GetPageId</span>(), pages_[frame].<span class="hljs-built_in">GetData</span>());<br>  &#125;<br>  <span class="hljs-comment">// 更新页表；移除原来的页表项，更新新的页表项</span><br>  page_table_-&gt;<span class="hljs-built_in">Remove</span>(pages_[frame].<span class="hljs-built_in">GetPageId</span>());<br>  page_table_-&gt;<span class="hljs-built_in">Insert</span>(pg_id, frame);<br>  <span class="hljs-comment">// 重置该帧对应的页面内容</span><br>  <span class="hljs-comment">// pages_[frame].SetMetaData(pg_id, 1, false, true);</span><br>  pages_[frame].page_id_ = pg_id;<br>  pages_[frame].pin_count_ = <span class="hljs-number">1</span>;<br>  pages_[frame].is_dirty_ = <span class="hljs-literal">false</span>;<br><br>  <span class="hljs-comment">// 告诉replacer_ pin住帧并更新记录</span><br>  replacer_-&gt;<span class="hljs-built_in">SetEvictable</span>(frame, <span class="hljs-literal">false</span>);<br>  replacer_-&gt;<span class="hljs-built_in">RecordAccess</span>(frame);<br>  <span class="hljs-comment">// 返回对应的物理帧页面</span><br>  <span class="hljs-keyword">return</span> &amp;pages_[frame];<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">BufferPoolManagerInstance::FetchPgImp</span><span class="hljs-params">(<span class="hljs-type">page_id_t</span> page_id)</span> -&gt; Page * </span>&#123;<br>  <span class="hljs-function">std::lock_guard&lt;std::shared_mutex&gt; <span class="hljs-title">lock</span><span class="hljs-params">(latch_)</span></span>;<br><br>  <span class="hljs-comment">// 首先查找页表，如果在buffer pool中直接返回对应的页面</span><br>  <span class="hljs-keyword">auto</span> frame = INVALID_PAGE_ID;<br>  <span class="hljs-keyword">if</span> (page_table_-&gt;<span class="hljs-built_in">Find</span>(page_id, frame)) &#123;<br>    <span class="hljs-comment">// 需要增加引用计数，以及replacer的一些记录</span><br>    ++pages_[frame].pin_count_;<br>    replacer_-&gt;<span class="hljs-built_in">RecordAccess</span>(frame);<br>    replacer_-&gt;<span class="hljs-built_in">SetEvictable</span>(frame, <span class="hljs-literal">false</span>);<br>    <span class="hljs-keyword">return</span> &amp;pages_[frame];<br>  &#125;<br><br>  <span class="hljs-comment">// 页表中没有找到，需要从disk读入</span><br>  <span class="hljs-comment">// 尝试找出替换的页面</span><br>  frame = <span class="hljs-built_in">GetReplaceFrame</span>();<br>  <span class="hljs-keyword">if</span> (frame == INVALID_PAGE_ID) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">nullptr</span>;<br>  &#125;<br>  <span class="hljs-comment">// 写回帧对应原来的页面的数据</span><br>  <span class="hljs-keyword">if</span> (pages_[frame].<span class="hljs-built_in">IsDirty</span>()) &#123;<br>    disk_manager_-&gt;<span class="hljs-built_in">WritePage</span>(pages_[frame].<span class="hljs-built_in">GetPageId</span>(), pages_[frame].<span class="hljs-built_in">GetData</span>());<br>  &#125;<br>  <span class="hljs-comment">// 更新页表</span><br>  page_table_-&gt;<span class="hljs-built_in">Remove</span>(pages_[frame].<span class="hljs-built_in">GetPageId</span>());<br>  page_table_-&gt;<span class="hljs-built_in">Insert</span>(page_id, frame);<br>  <span class="hljs-comment">// 重置页面内容</span><br>  <span class="hljs-comment">// pages_[frame].SetMetaData(page_id, 1, false, true);</span><br>  pages_[frame].page_id_ = page_id;<br>  pages_[frame].pin_count_ = <span class="hljs-number">1</span>;<br>  pages_[frame].is_dirty_ = <span class="hljs-literal">false</span>;<br><br>  <span class="hljs-comment">// 读入新页面的数据到该帧位置</span><br>  disk_manager_-&gt;<span class="hljs-built_in">ReadPage</span>(page_id, pages_[frame].<span class="hljs-built_in">GetData</span>());<br>  <span class="hljs-comment">// 告诉replacer_ pin住帧并更新记录</span><br>  replacer_-&gt;<span class="hljs-built_in">SetEvictable</span>(frame, <span class="hljs-literal">false</span>);<br>  replacer_-&gt;<span class="hljs-built_in">RecordAccess</span>(frame);<br>  <span class="hljs-comment">// 返回对应的物理帧页面</span><br>  <span class="hljs-keyword">return</span> &amp;pages_[frame];<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">BufferPoolManagerInstance::UnpinPgImp</span><span class="hljs-params">(<span class="hljs-type">page_id_t</span> page_id, <span class="hljs-type">bool</span> is_dirty)</span> -&gt; <span class="hljs-type">bool</span> </span>&#123;<br>  <span class="hljs-function">std::lock_guard&lt;std::shared_mutex&gt; <span class="hljs-title">lock</span><span class="hljs-params">(latch_)</span></span>;<br><br>  <span class="hljs-type">frame_id_t</span> frame = INVALID_PAGE_ID;<br>  <span class="hljs-comment">// 尝试在页表中查找page_id是否在buffer pool中</span><br>  <span class="hljs-keyword">if</span> (!page_table_-&gt;<span class="hljs-built_in">Find</span>(page_id, frame)) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>  &#125;<br>  <span class="hljs-keyword">if</span> (pages_[frame].<span class="hljs-built_in">GetPinCount</span>() &lt;= <span class="hljs-number">0</span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>  &#125;<br>  --pages_[frame].pin_count_;<br>  <span class="hljs-keyword">if</span> (pages_[frame].<span class="hljs-built_in">GetPinCount</span>() == <span class="hljs-number">0</span>) &#123;<br>    <span class="hljs-comment">// 加入replacer</span><br>    replacer_-&gt;<span class="hljs-built_in">SetEvictable</span>(frame, <span class="hljs-literal">true</span>);<br>  &#125;<br>  <span class="hljs-comment">// pages_[frame].SetDirty(is_dirty);</span><br>  pages_[frame].is_dirty_ = is_dirty;<br><br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">BufferPoolManagerInstance::FlushPgImp</span><span class="hljs-params">(<span class="hljs-type">page_id_t</span> page_id)</span> -&gt; <span class="hljs-type">bool</span> </span>&#123;<br>  <span class="hljs-function">std::lock_guard&lt;std::shared_mutex&gt; <span class="hljs-title">lock</span><span class="hljs-params">(latch_)</span></span>;<br><br>  <span class="hljs-type">frame_id_t</span> frame = INVALID_PAGE_ID;<br>  <span class="hljs-keyword">if</span> (!page_table_-&gt;<span class="hljs-built_in">Find</span>(page_id, frame)) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>  &#125;<br>  <span class="hljs-keyword">if</span> (pages_[frame].<span class="hljs-built_in">IsDirty</span>()) &#123;<br>    disk_manager_-&gt;<span class="hljs-built_in">WritePage</span>(pages_[frame].<span class="hljs-built_in">GetPageId</span>(), pages_[frame].<span class="hljs-built_in">GetData</span>());<br>    <span class="hljs-comment">// pages_[frame].SetDirty(false);</span><br>    pages_[frame].is_dirty_ = <span class="hljs-literal">false</span>;<br>  &#125;<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">BufferPoolManagerInstance::FlushAllPgsImp</span><span class="hljs-params">()</span> </span>&#123;<br>  <span class="hljs-function">std::lock_guard&lt;std::shared_mutex&gt; <span class="hljs-title">lock</span><span class="hljs-params">(latch_)</span></span>;<br><br>  <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> frame = <span class="hljs-number">0</span>; frame &lt; pool_size_; ++frame) &#123;<br>    <span class="hljs-keyword">if</span> (pages_[frame].<span class="hljs-built_in">IsDirty</span>()) &#123;<br>      disk_manager_-&gt;<span class="hljs-built_in">WritePage</span>(pages_[frame].<span class="hljs-built_in">GetPageId</span>(), pages_[frame].<span class="hljs-built_in">GetData</span>());<br>    &#125;<br>  &#125;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">BufferPoolManagerInstance::DeletePgImp</span><span class="hljs-params">(<span class="hljs-type">page_id_t</span> page_id)</span> -&gt; <span class="hljs-type">bool</span> </span>&#123;<br>  <span class="hljs-function">std::lock_guard&lt;std::shared_mutex&gt; <span class="hljs-title">lock</span><span class="hljs-params">(latch_)</span></span>;<br><br>  <span class="hljs-type">frame_id_t</span> frame = INVALID_PAGE_ID;<br>  <span class="hljs-comment">// 没在buffer pool中</span><br>  <span class="hljs-keyword">if</span> (!page_table_-&gt;<span class="hljs-built_in">Find</span>(page_id, frame)) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>  &#125;<br>  <span class="hljs-comment">// 在buffer pool中</span><br>  <span class="hljs-comment">// pin引用不为0</span><br>  <span class="hljs-keyword">if</span> (pages_[frame].<span class="hljs-built_in">GetPinCount</span>() &gt; <span class="hljs-number">0</span>) &#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;<br>  &#125;<br>  <span class="hljs-comment">// 删除页表项</span><br>  page_table_-&gt;<span class="hljs-built_in">Remove</span>(page_id);<br>  <span class="hljs-comment">// 从replacer中移除</span><br>  replacer_-&gt;<span class="hljs-built_in">Remove</span>(frame);<br>  <span class="hljs-comment">// 当前帧加入free list</span><br>  free_list_.<span class="hljs-built_in">push_back</span>(frame);<br>  <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">BufferPoolManagerInstance::AllocatePage</span><span class="hljs-params">()</span> -&gt; <span class="hljs-type">page_id_t</span> </span>&#123; <span class="hljs-keyword">return</span> next_page_id_++; &#125;<br><br>&#125;  <span class="hljs-comment">// namespace bustub</span><br><br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h2 id="Project-2"><a href="#Project-2" class="headerlink" title="Project 2"></a>Project 2</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/580014163">做个数据库：2022 CMU15-445 Project2 B+Tree Index - 知乎 (zhihu.com)</a></p>
+<p>总结：</p>
+<ul>
+<li>查找：<ul>
+<li>叶子：二分</li>
+<li>中间页面：二分，返回对应的位置</li>
+<li>并发：读锁，获取下一个页面的时候，释放parent页面的锁，unpin。</li>
+</ul>
+</li>
+<li>插入：<ul>
+<li>递归找到叶子节点</li>
+<li>处理可能的分裂问题</li>
+<li>并发：是否安全来判断是否解锁parent，插入时孩子节点的的数量决定</li>
+</ul>
+</li>
+<li>删除：<ul>
+<li>递归找到叶子节点</li>
+<li>删除，处理可能的合并兄弟或是重新分配</li>
+<li>并发：是否安全来判断是否解锁parent。</li>
+</ul>
+</li>
+<li>优化：<ul>
+<li>Search 操作不变，在 Insert/Delete 操作中，我们可以先乐观地认为不会发生 split/steal/merge，对沿途的节点上读锁，并及时释放，对 leaf page 上写锁。当发现操作对 leaf page 确实不会造成 split/steal/merge 时，可以直接完成操作。当发现操作会使 leaf page split/steal/merge 时，则放弃所有持有的锁，从 root page 开始重新悲观地进行这次操作，即沿途上写锁</li>
+</ul>
+</li>
+</ul>
+<p>目标是为了实现数据库系统的中的<strong>索引</strong>。</p>
+<ul>
+<li>快速查询，不用每一行去检索数据</li>
+</ul>
+<p>需要实现B+树动态索引结构</p>
+<ul>
+<li>树的internal page定向搜索，leaf page包含实际的数据条目。</li>
+<li>树结构动态增长和收缩，需要处理逻辑上的split和merge。</li>
+</ul>
+<p>包含以下任务和两个检查点：</p>
+<p>检查点一：</p>
+<ul>
+<li>任务一：B+ 树页面</li>
+<li>任务二：B+树数据结构（插入、删除、节点查找）</li>
+</ul>
+<p>检查点二：</p>
+<ul>
+<li>任务三：索引迭代器</li>
+<li>任务四：并发索引</li>
+</ul>
+<p>具体地：</p>
+<h3 id="检查点一"><a href="#检查点一" class="headerlink" title="检查点一"></a>检查点一</h3><h4 id="任务1-B-Tree-Pages"><a href="#任务1-B-Tree-Pages" class="headerlink" title="任务1 B+ Tree Pages"></a>任务1 B+ Tree Pages</h4><p>实现三个类：</p>
+<ul>
+<li><p>B+ Tree Parent Page</p>
+<ul>
+<li>B+树页的基类</li>
+<li><img src="D:\OneDrive\Blog\source_posts\CMU-15-445-645.assets\image-20230617154804903.png" srcset="/img/loading.gif" lazyload alt="image-20230617154804903"></li>
+<li>需要在对应的文件中实现自己的Parent Page</li>
+</ul>
+</li>
+<li><p>B+ Tree Internal Page</p>
+<ul>
+<li>内部页不存储任何真实的数据，只存储m各key和m+1个child pointers（page_id）</li>
+<li>由于key和pointer的数量是不同的，因此将第一个key设置为无效。</li>
+<li>在任何时候至少是half full。删除节点的时候，可以join或是redistributed。插入节点的时候可能split。</li>
+</ul>
+</li>
+<li><p>B+ Tree Leaf Page</p>
+<ul>
+<li>存m个key和m个value。</li>
+<li>在我们的实现当中，value应该是64为的record_id，用于定位实际的tuple存储的位置。</li>
+<li>leaf page也应该同样满足key/value pairs的限制</li>
+<li>即使Leaf page和internal page可能有同样类型的key，但是它们可能有不同类型的value，因此max_size是不同的。</li>
+<li>每一个B+树的leaf和internal page对应一个memory page fetch by buffer pool.<ul>
+<li>因此每次需要读写的时候，需要首先利用page_id从buffer pool中拉取对应的页面，然后reinterpret cost到对应的leaf或是internal page。</li>
+<li>并且需要在读写完成之后执行unpin操作。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="任务2-B-树数据结构"><a href="#任务2-B-树数据结构" class="headerlink" title="任务2 B+树数据结构"></a>任务2 B+树数据结构</h4><p>B+树索引仅支持unique keys。</p>
+<ul>
+<li>插入重复的key的时候直接返回false</li>
+<li>需要正确地完成merge和redistribute操作。</li>
+</ul>
+<h2 id="Project-3-Query-Execution"><a href="#Project-3-Query-Execution" class="headerlink" title="Project 3 Query Execution"></a>Project 3 Query Execution</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/587566135">做个数据库：2022 CMU15-445 Project3 Query Execution - 知乎 (zhihu.com)</a></p>
 
                 
               </div>
